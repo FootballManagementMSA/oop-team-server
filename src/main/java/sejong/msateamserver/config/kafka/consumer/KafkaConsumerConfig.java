@@ -1,0 +1,36 @@
+package sejong.msateamserver.config.kafka.consumer;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+
+import sejong.msateamserver.config.Json.CommonJsonDeserializer;
+
+public class KafkaConsumerConfig {
+	@Value("${spring.kafka.consumer.bootstrap-servers}")
+	private String BOOTSTRAP_SERVERS_CONFIG;
+
+	@Value("${spring.kafka.consumer.group-id}")
+	private String GROUP_ID_CONFIG;
+
+	@Bean
+	public Map<String, Object> consumerConfigs() {
+		return CommonJsonDeserializer.getStringObjectMap(BOOTSTRAP_SERVERS_CONFIG, GROUP_ID_CONFIG);
+	}
+
+	@Bean
+	public ConsumerFactory<String, String> deleteUserConsumerFactory() {
+		return new DefaultKafkaConsumerFactory<>(consumerConfigs());
+	}
+
+	@Bean
+	public ConcurrentKafkaListenerContainerFactory<String, String> ApplyUserDeleteListener() {
+		ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+		factory.setConsumerFactory(deleteUserConsumerFactory());
+		return factory;
+	}
+}
