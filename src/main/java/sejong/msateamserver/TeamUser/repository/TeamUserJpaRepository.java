@@ -11,8 +11,7 @@ import sejong.msateamserver.TeamUser.entity.TeamUserEntity;
 
 @Repository
 public interface TeamUserJpaRepository extends JpaRepository<TeamUserEntity, Long> {
-	@Modifying
+
 	@Transactional
-	@Query("DELETE FROM TeamUserEntity t WHERE t.studentId = :studentId")
-	int deleteAllByStudentId(@Param("studentId") String studentId);
+	void deleteAllByStudentId(String studentId);
 }

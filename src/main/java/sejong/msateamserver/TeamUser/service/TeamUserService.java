@@ -31,6 +31,10 @@ public class TeamUserService {
 	public void deleteTeamUser(String studentId) {
 		System.out.println("Received delete user message for studentId: " + studentId);
 		teamUserRepository.deleteAllByStudentId(studentId);
-		System.out.println("Deleted user with studentId: " + studentId);
+	}
+
+	@Transactional
+	public void deleteTeamUserAPI(String studentId) {
+		teamUserRepository.deleteAllByStudentId(studentId);
 	}
 }

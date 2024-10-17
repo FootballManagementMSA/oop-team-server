@@ -17,8 +17,6 @@ public class TeamUserRepositoryImpl implements TeamUserRepository {
 
 	@Override
 	public void deleteAllByStudentId(String studentId) {
-		int deletedCount = teamUserJpaRepository.deleteAllByStudentId(studentId);
-		System.out.println("Deleted " + deletedCount + " records for studentId: " + studentId);
-		teamUserJpaRepository.flush();
+		teamUserJpaRepository.deleteAllByStudentId(studentId);
 	}
 }
