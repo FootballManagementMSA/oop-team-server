@@ -14,5 +14,5 @@ public interface TeamUserJpaRepository extends JpaRepository<TeamUserEntity, Lon
 	@Modifying
 	@Transactional
 	@Query("DELETE FROM TeamUserEntity t WHERE t.studentId = :studentId")
-	void deleteAllByStudentId(@Param("studentId") String studentId);
+	int deleteAllByStudentId(@Param("studentId") String studentId);
 }

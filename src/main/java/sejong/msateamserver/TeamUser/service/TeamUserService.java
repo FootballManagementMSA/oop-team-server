@@ -29,7 +29,8 @@ public class TeamUserService {
 	@Transactional
 	@KafkaListener(topics = "user-delete", groupId = "group-01")
 	public void deleteTeamUser(String studentId) {
-		System.out.println("Received delete user message for studentId: " + studentId); // 로그 추가
+		System.out.println("Received delete user message for studentId: " + studentId);
 		teamUserRepository.deleteAllByStudentId(studentId);
+		System.out.println("Deleted user with studentId: " + studentId);
 	}
 }
