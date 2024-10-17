@@ -27,14 +27,14 @@ public class KafkaConsumerConfig {
 	}
 
 	@Bean
-	public ConsumerFactory<String, String> deleteUserConsumerFactory() {
+	public ConsumerFactory<String, String> stringValueConsumerFactory() {
 		return new DefaultKafkaConsumerFactory<>(consumerConfigs());
 	}
 
 	@Bean
 	public ConcurrentKafkaListenerContainerFactory<String, String> ApplyUserDeleteListener() {
 		ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
-		factory.setConsumerFactory(deleteUserConsumerFactory());
+		factory.setConsumerFactory(stringValueConsumerFactory());
 		return factory;
 	}
 }

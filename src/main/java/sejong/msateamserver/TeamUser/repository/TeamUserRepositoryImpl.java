@@ -16,7 +16,7 @@ public class TeamUserRepositoryImpl implements TeamUserRepository {
 	}
 
 	@Override
-	public void deleteAllByStudentId(String studentId) {
-		teamUserJpaRepository.deleteAllByStudentId(studentId);
+	public int deleteAllByStudentId(String studentId) {
+		return teamUserJpaRepository.deleteAllByStudentId(studentId);
 	}
 }

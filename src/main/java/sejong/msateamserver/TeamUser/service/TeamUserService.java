@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import sejong.msateamserver.TeamUser.kafka.producer.UserKafkaProducer;
 import sejong.msateamserver.TeamUser.mapper.TeamUserMapper;
 import sejong.msateamserver.TeamUser.repository.TeamUserRepository;
 import sejong.msateamserver.feignClient.UserFeignClient;
@@ -19,6 +20,8 @@ public class TeamUserService {
 	private final TeamUserRepository teamUserRepository;
 
 	private final TeamUserMapper teamUserMapper;
+
+	private final UserKafkaProducer userKafkaProducer;
 
 	@Transactional
 	public void createTeamUser(CreateTeamUserRequestDto requestDto) {
@@ -35,6 +38,18 @@ public class TeamUserService {
 
 	@Transactional
 	public void deleteTeamUserAPI(String studentId) {
-		teamUserRepository.deleteAllByStudentId(studentId);
+		try {
+			System.out.println("Received delete user message for studentId: " + studentId);
+			int deletedCount = teamUserRepository.deleteAllByStudentId(studentId);
+
+			if (deletedCount == 0) {
+				throw new RuntimeException("No records deleted for studentId: " + studentId); // No record found
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error occurred while deleting user: " + e.getMessage());
+			userKafkaProducer.deleteUserRollback(e.getMessage());
+			throw e;
+		}
 	}
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class UserKafkaProducer {
 	private final KafkaTemplate<String, String> deleteUserKafkaTemplate;
 
-	public void deleteUser(String studentId) {
-		deleteUserKafkaTemplate.send("user-delete", studentId);
+	public void deleteUserRollback(String studentId) {
+		deleteUserKafkaTemplate.send("user-delete-rollback", studentId);
 	}
 }
